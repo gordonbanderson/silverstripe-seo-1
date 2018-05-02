@@ -27,7 +27,7 @@ jobs:
       only:
         - master
         - develop
-        - fixes
+        - fixcircleci
 
     steps:
       - checkout
@@ -42,6 +42,7 @@ jobs:
       - run: composer validate
       - run: composer require --prefer-source --no-update silverstripe/recipe-cms:1.1.x-dev
       - run: composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
+      - run: ls -lh vendor/silverstripe
 
 
 
