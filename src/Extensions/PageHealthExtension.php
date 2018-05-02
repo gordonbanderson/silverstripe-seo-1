@@ -53,7 +53,8 @@ class PageHealthExtension extends DataExtension
     public function getRenderedHtml()
     {
         if (!$this->renderedHtml) {
-            $this->renderedHtml = file_get_contents($this->getOwner()->AbsoluteLink());
+            $this->renderedHtml = file_get_contents($this->getOwner()->AbsoluteLink() .
+                ((!$this->getOwner()->isPublished()) ? '?stage=Stage' : '')  );
         }
 
         return $this->renderedHtml;
@@ -66,7 +67,13 @@ class PageHealthExtension extends DataExtension
      */
     public function getRenderedHtmlDomParser()
     {
-        return HtmlDomParser::str_get_html($this->getRenderedHtml());
+        $html = $this->getRenderedHtml();
+
+        if (!$html) {
+            return false;
+        }
+
+        return HtmlDomParser::str_get_html($html);
     }
 
     /**

@@ -35,14 +35,13 @@ class GoogleSearchPreview extends LiteralField
      * @param \Page|PageHealthExtension|PageSeoExtension $page
      * @param simple_html_dom                            $domParser
      */
-    public function __construct($name, $title, $page, simple_html_dom $domParser)
+    public function __construct($name, $title, $page, simple_html_dom $domParser = null)
     {
-        $renderedTitle = $domParser->find('title', 0);
-        $firstParagraph = $domParser->find('p', 0);
+        $renderedTitle = ($domParser) ? $domParser->find('title', 0) : null;
+        $firstParagraph = ($domParser) ? $domParser->find('p', 0) : null;
 
         Requirements::javascript('vulcandigital/silverstripe-seo:dist/javascript/main.min.js');
         Requirements::css('vulcandigital/silverstripe-seo:dist/css/styles.min.css');
-
         parent::__construct($name, ArrayData::create([
             'Title'           => $title,
             'Page'            => $page,
@@ -56,15 +55,14 @@ class GoogleSearchPreview extends LiteralField
                 $page->FocusKeyword
             ) : null,
             'FirstParagraph'  => $firstParagraph ? $this->highlight(
-                $firstParagraph->innertext(),
+                $firstParagraph ? $firstParagraph->innertext() : '',
                 $page->FocusKeyword
             ) : null,
             'RenderedTitle'   => $renderedTitle ? $this->highlight(
-                $renderedTitle->innertext(),
+                $renderedTitle ? $renderedTitle->innertext() : '',
                 $page->FocusKeyword
             ) : null
         ])->renderWith(self::class));
-    }
 
     /**
      * @param $int
