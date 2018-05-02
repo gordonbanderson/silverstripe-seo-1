@@ -43,9 +43,9 @@ class GoogleSearchPreview extends LiteralField
         Requirements::javascript('vulcandigital/silverstripe-seo:dist/javascript/main.min.js');
         Requirements::css('vulcandigital/silverstripe-seo:dist/css/styles.min.css');
         parent::__construct($name, ArrayData::create([
-            'Title'           => $title,
-            'Page'            => $page,
-            'AbsoluteLink'    => Controller::join_links(
+            'Title' => $title,
+            'Page' => $page,
+            'AbsoluteLink' => Controller::join_links(
                 Director::absoluteBaseURL(),
                 str_replace($page->URLSegment, '', $page->Link()),
                 $this->urlSegmentHighlight($page->URLSegment, $page->FocusKeyword)
@@ -54,15 +54,16 @@ class GoogleSearchPreview extends LiteralField
                 $page->MetaDescription,
                 $page->FocusKeyword
             ) : null,
-            'FirstParagraph'  => $firstParagraph ? $this->highlight(
+            'FirstParagraph' => $firstParagraph ? $this->highlight(
                 $firstParagraph ? $firstParagraph->innertext() : '',
                 $page->FocusKeyword
             ) : null,
-            'RenderedTitle'   => $renderedTitle ? $this->highlight(
+            'RenderedTitle' => $renderedTitle ? $this->highlight(
                 $renderedTitle ? $renderedTitle->innertext() : '',
                 $page->FocusKeyword
             ) : null
         ])->renderWith(self::class));
+    }
 
     /**
      * @param $int
